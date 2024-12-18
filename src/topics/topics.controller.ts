@@ -1,6 +1,7 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 
+import { CreateTopicDto } from './dto/create-topic.dto';
 import { OutputGetTopicDto } from './dto/output-get-topic.dto';
 import { TopicsService } from './topics.service';
 
@@ -30,5 +31,10 @@ export class TopicsController {
     return plainToInstance(OutputGetTopicDto, topic, {
       excludeExtraneousValues: true,
     });
+  }
+
+  @Post()
+  async create(@Body() createTopicDto: CreateTopicDto) {
+    return this.topicsService.create(createTopicDto);
   }
 }

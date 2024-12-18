@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { FindOptions } from 'sequelize';
 
@@ -14,5 +14,13 @@ export class TopicsService {
 
   findOne(id: number, options: FindOptions<Topic>) {
     return this.userRepository.findByPk(id, options);
+  }
+
+  async create(createTopicDto) {
+    try {
+      return await this.userRepository.create(createTopicDto);
+    } catch (error) {
+      throw new BadRequestException({ message: 'Failed to create topic' }, error.message);
+    }
   }
 }
